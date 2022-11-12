@@ -61,24 +61,45 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
 <script>
-    $('#tambah-peserta').on('click', function () {
-        var id = $('.form-peserta').length +1;
-        $('#kolom-peserta').append(`
+    $('#tambah-pembeli').on('click', function () {
+        var id = $('.form-pembeli').length +1;
+        $('#kolom-pembeli').append(`
+        <div class="mb-2">
                 <div class="row mb-2">
-                    <label for="" class="col-md-4">Peserta `+id+`</label>
+                    <label for="" class="col-md-4">Pembeli `+id+`</label>
                     <div class="col-md input-group">
-                        <input type="text" class="form-control form-control-sm form-peserta" id="peserta-`+id+`">
+                        <input type="text" class="form-control form-control-sm form-pembeli" id="pembeli-`+id+`">
                         <button class="btn-danger btn btn-sm input-group-append">
                                 <i class="fas fa-trash"></i>
                             </button>
                     </div>
                 </div>
+                <div class="row">
+                            <div class="col-md-4">
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row d-flex">
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Menu">
+                                    </div>
+                                    <div class="col-md input-group">
+                                        <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
+                                        <input type="number" class="form-control form-control-sm" placeholder="Harga">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control form-control-sm" placeholder="Qty">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
         `)
     })
 
     $('#hitung').on('click', function () {
         var payload = [];
-        $('.form-peserta').each(function (index, element) {
+        $('.form-pembeli').each(function (index, element) {
             payload.push({
                 'harga': $(element).val(),
                 'jumlah' : 1
@@ -96,6 +117,28 @@
             }
 
         })
+    })
+
+    $('body').on('click', '.tambah-menu', function () {
+        $(this).closest('.row').append(`
+        <div class="col-md-4 mb-2 d-flex justify-content-end">
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row d-flex">
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control form-control-sm menu-peserta-1" placeholder="Menu">
+                                    </div>
+                                    <div class="col-md input-group">
+                                        <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
+                                        <input type="number" class="form-control form-control-sm harga-peserta-1" placeholder="Harga">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control form-control-sm jumlah-peserta-1" placeholder="Qty">
+                                    </div>
+                                </div>
+                            </div>
+                            `)
     })
 </script>
 </body>
