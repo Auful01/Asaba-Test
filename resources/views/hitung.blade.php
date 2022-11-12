@@ -9,7 +9,7 @@
             </button>
             <div class="row d-flex">
                 <div class="col-md-6" id="kolom-pembeli">
-                    <div class=" mb-2">
+                    <div class="mb-2 pembeli">
                         <div class="row mb-2">
                             <label for="" class="col-md-4">Pembeli 1</label>
                             <div class="col-md input-group">
@@ -19,21 +19,23 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row"  id="list-menu-peserta-1">
-                            <div class="col-md-4 mb-2 d-flex justify-content-end">
-                                <button class="btn btn-primary btn-sm tambah-menu"><i class="fas fa-xs fa-plus"></i> &nbsp; Menu</button>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row d-flex">
-                                    <div class="col-md-5">
-                                        <input type="text" class="form-control form-control-sm menu-peserta-1" placeholder="Menu">
-                                    </div>
-                                    <div class="col-md input-group">
-                                        <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control form-control-sm harga-peserta-1" placeholder="Harga">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="number" class="form-control form-control-sm jumlah-peserta-1" placeholder="Qty">
+                        <div class="list-menu-peserta"  id="list-menu-peserta-1">
+                            <div class="row mb-2 daftar-menu">
+                                <div class="col-md-4 mb-2 d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-sm tambah-menu"><i class="fas fa-xs fa-plus"></i> &nbsp; Menu</button>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row d-flex">
+                                        <div class="col-md-5">
+                                            <input type="text" class="form-control form-control-sm menu-peserta-1" placeholder="Menu">
+                                        </div>
+                                        <div class="col-md input-group">
+                                            <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
+                                            <input type="number" class="form-control form-control-sm harga-peserta-1" placeholder="Harga">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="number" class="form-control form-control-sm jumlah-peserta-1" placeholder="Qty">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

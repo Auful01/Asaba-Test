@@ -64,7 +64,7 @@
     $('#tambah-pembeli').on('click', function () {
         var id = $('.form-pembeli').length +1;
         $('#kolom-pembeli').append(`
-        <div class="mb-2">
+        <div class="mb-2 pembeli">
                 <div class="row mb-2">
                     <label for="" class="col-md-4">Pembeli `+id+`</label>
                     <div class="col-md input-group">
@@ -74,24 +74,26 @@
                             </button>
                     </div>
                 </div>
-                <div class="row">
-                            <div class="col-md-4">
-
+                <div class="list-menu-peserta"  id="list-menu-peserta-`+id+`">
+                <div class="row mb-2 daftar-menu">
+                            <div class="col-md-4  mb-2 d-flex justify-content-end">
+                                <button class="btn btn-primary btn-sm tambah-menu"><i class="fas fa-xs fa-plus"></i> &nbsp; Menu</button>
                             </div>
                             <div class="col-md-8">
                                 <div class="row d-flex">
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Menu">
+                                        <input type="text" class="form-control form-control-sm menu-peserta-`+id+`" placeholder="Menu">
                                     </div>
                                     <div class="col-md input-group">
                                         <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control form-control-sm" placeholder="Harga">
+                                        <input type="number" class="form-control form-control-sm harga-peserta-`+id+`" placeholder="Harga">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control form-control-sm" placeholder="Qty">
+                                        <input type="number" class="form-control form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
             </div>
         `)
@@ -99,13 +101,51 @@
 
     $('#hitung').on('click', function () {
         var payload = [];
-        $('.form-pembeli').each(function (index, element) {
+        $('.pembeli').each(function (i, e) {
+            var pembeli = $(e).find('.form-pembeli').val();
+            var menu = [];
+            $(e).find('.daftar-menu').each(function (ind, el) {
+                var nama = $(el).find('.menu-peserta-'+(i+1)).val();
+                var harga = $(el).find('.harga-peserta-'+(i+1)).val();
+                var jumlah = $(el).find('.jumlah-peserta-'+(i+1)).val();
+                menu.push({
+                    menu_peserta: nama,
+                    harga_peserta: harga,
+                    jumlah_peserta: jumlah
+                })
+            })
             payload.push({
-                'harga': $(element).val(),
-                'jumlah' : 1
+                pembeli: pembeli,
+                menu: menu
             })
         })
+        // payload.push({
+        //     pembeli: $('#pembeli-1').val(),
+        //     menu: $('.menu-peserta-1').map(function () {
+        //         return $(this).val();
+        //     }).get(),
+        //     harga: $('.harga-peserta-1').map(function () {
+        //         return $(this).val();
+        //     }).get(),
+        //     jumlah: $('.jumlah-peserta-1').map(function () {
+        //         return $(this).val();
+        //     }).get(),
+        // })
+        // $('.form-pembeli').each(function (index, element) {
+        //     payload['nama'].push($(element).val());
+        // })
+
+        // payload['menu'].push([]);
+        //     payload['menu']['nama'].push([]);
+        //     $('.menu-peserta-'+(index+1)).each(function (index, element) {
+        //         payload['menu']['nama'][index].push($(element).val());
+        //     })
+        //     payload['menu']['harga'].push([]);
+        //     $('.harga-peserta-'+(index+1)).each(function (index, element) {
+        //         payload['menu']['harga'][index].push($(element).val());
+        //     })
         console.log(payload)
+        console.log($('.menu-peserta-2').length);
         $.ajax({
             url: 'api/transaksi',
             type: 'GET',
@@ -120,23 +160,26 @@
     })
 
     $('body').on('click', '.tambah-menu', function () {
-        $(this).closest('.row').append(`
-        <div class="col-md-4 mb-2 d-flex justify-content-end">
+        var id = $('.form-pembeli').length;
+        $(this).closest('.list-menu-peserta').prepend(`
+        <div class="row mb-2 daftar-menu">
+        <div class="col-md-4 d-flex justify-content-end">
 
                             </div>
                             <div class="col-md-8">
                                 <div class="row d-flex">
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control form-control-sm menu-peserta-1" placeholder="Menu">
+                                        <input type="text" class="form-control form-control-sm menu-peserta-`+id+`" placeholder="Menu">
                                     </div>
                                     <div class="col-md input-group">
                                         <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control form-control-sm harga-peserta-1" placeholder="Harga">
+                                        <input type="number" class="form-control form-control-sm harga-peserta-`+id+`" placeholder="Harga">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control form-control-sm jumlah-peserta-1" placeholder="Qty">
+                                        <input type="number" class="form-control form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
                                     </div>
                                 </div>
+                            </div>
                             </div>
                             `)
     })
