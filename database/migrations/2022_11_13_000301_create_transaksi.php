@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
+            $table->integer('total_harga');
+            $table->integer('harga_diskon');
+            $table->integer('diskon');
+            $table->integer('max_diskon');
+            $table->integer('min_pembelian');
+            $table->integer('ongkir');
             $table->timestamps();
         });
     }

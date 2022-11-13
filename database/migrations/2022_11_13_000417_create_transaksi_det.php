@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('transaksi_det', function (Blueprint $table) {
             $table->id();
-            $table->stirng('transaksi_id');
+            $table->string('transaksi_id');
             $table->string('nama_pembeli');
+            $table->integer('total_harga')->nullable();
+            $table->integer('harga_diskon')->nullable();
             $table->timestamps();
         });
     }

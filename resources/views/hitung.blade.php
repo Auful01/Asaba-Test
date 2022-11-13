@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="card border-0 shadow" style="width: 80%;margin-top:10%;left:10%;position: absolute;">
+    <div class="card border-0 shadow mb-3" style="width: 80%;margin-top:10%;left:10%;position: absolute;">
         <div class="card-body">
             <button class="btn mb-3 btn-sm btn-primary" style="width: fit-content" id="tambah-pembeli">
                 <i class="fas fa-plus"></i>
@@ -27,14 +27,14 @@
                                 <div class="col-md-8">
                                     <div class="row d-flex">
                                         <div class="col-md-5">
-                                            <input type="text" class="form-control form-control-sm menu-peserta-1" placeholder="Menu">
+                                            <input type="text" class="form-control mb-2 form-control-sm menu-peserta-1" placeholder="Menu">
                                         </div>
                                         <div class="col-md input-group">
                                             <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                            <input type="number" class="form-control form-control-sm harga-peserta-1" placeholder="Harga">
+                                            <input type="number" class="form-control mb-2 form-control-sm harga-peserta-1" placeholder="Harga">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control form-control-sm jumlah-peserta-1" placeholder="Qty">
+                                            <input type="number" class="form-control mb-2 form-control-sm jumlah-peserta-1" placeholder="Qty">
                                         </div>
                                     </div>
                                 </div>
@@ -86,6 +86,53 @@
                 <button class="btn btn-sm btn-primary" id="hitung">
                     <i class="fas fa-save"></i>&nbsp; Submit
                 </button>
+            </div>
+
+            <hr>
+            <div class="row d-flex">
+                <div class="col-md-6">
+                    <h1 class="mb-3" style="font-size: 18px;font-weight: 600">Hasil Perhitungan</h1>
+                    <table class="table">
+                        <tr class="mb-2">
+                            <td>ID Transaksi</td>
+                            <td id="id-transaksi"></td>
+                        </tr>
+                        <tr class="mb-2">
+                            <td>Total Harga</td>
+                            <td id="harga-total"></td>
+                        </tr>
+                        <tr class="mb-2">
+                            <td>Ongkir</td>
+                            <td id="ongkir"></td>
+                        </tr>
+                        <tr class="mb-2">
+                            <td>Diskon</td>
+                            <td id="diskon"></td>
+                        </tr>
+                        <tr class="mb-2">
+                            <td>Minimum Pembelian</td>
+                            <td id="minimal-pembelian"></td>
+                        </tr>
+                        <tr class="mb-2">
+                            <td>Maksimal Diskon</td>
+                            <td id="max-diskon"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    {{-- <h1>Table Detail</h1> --}}
+                    <h1 class="mb-3" style="font-size: 18px;font-weight: 600">Table Detail</h1>
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Harga</th>
+                        </thead>
+                        <tbody id="table-detail">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

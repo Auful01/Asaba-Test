@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('transaksi_det_id');
             $table->string('nama_menu');
-            $table->integer('harga');
-            $table->integer('jumlah');
+            $table->integer('harga')->nullable();
+            $table->integer('jumlah')->nullable();
             $table->timestamps();
         });
     }

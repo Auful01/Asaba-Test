@@ -84,14 +84,14 @@
                             <div class="col-md-8">
                                 <div class="row d-flex">
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control form-control-sm menu-peserta-`+id+`" placeholder="Menu">
+                                        <input type="text" class="form-control mb-2 form-control-sm menu-peserta-`+id+`" placeholder="Menu">
                                     </div>
                                     <div class="col-md input-group">
                                         <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control form-control-sm harga-peserta-`+id+`" placeholder="Harga">
+                                        <input type="number" class="form-control mb-2 form-control-sm harga-peserta-`+id+`" placeholder="Harga">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
+                                        <input type="number" class="form-control mb-2 form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
                                     </div>
                                 </div>
                             </div>
@@ -172,6 +172,23 @@
             },
             success: function (data) {
                 console.log(data)
+                $("#id-transaksi").html(data.data.id);
+                $("#harga-total-akhir").html(data.data.total_harga);
+                $('#ongkir-akhir').html(data.data.ongkir);
+                $('#diskon-akhir').html(data.data.diskon);
+                $('#minimal-pembelian-akhir').html(data.data.min_pembelian);
+                $('#max-diskon').html(data.data.max_diskon);
+                var key = 1;
+              data.data?.transaksi_det.forEach(element => {
+                    $("#table-detail").append(`
+                        <tr>
+                            <td>`+key+`</td>
+                            <td>`+element.nama_pembeli+`</td>
+                            <td>`+element.harga_diskon+`</td>
+                        </tr>
+                    `)
+                    key++;
+                });
             }
 
         })
@@ -190,14 +207,14 @@
                             <div class="col-md-8">
                                 <div class="row d-flex">
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control form-control-sm menu-peserta-`+id+`" placeholder="Menu">
+                                        <input type="text" class="form-control mb-2 form-control-sm menu-peserta-`+id+`" placeholder="Menu">
                                     </div>
                                     <div class="col-md input-group">
                                         <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control form-control-sm harga-peserta-`+id+`" placeholder="Harga">
+                                        <input type="number" class="form-control mb-2 form-control-sm harga-peserta-`+id+`" placeholder="Harga">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
+                                        <input type="number" class="form-control mb-2 form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
                                     </div>
                                 </div>
                             </div>

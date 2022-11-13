@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
+use App\Models\TransaksiDet;
+use App\Models\TransaksiDetMenu;
 use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
@@ -52,24 +55,50 @@ class TransaksiController extends Controller
 
         $total = $this->total($payload);
         $discount = $this->discount($payload, $percent, $max, $minimum);
+        $transaksi = Transaksi::create([
+            'total_harga' => $total + $ongkir,
+            'harga_diskon' => $discount + $ongkir,
+            'diskon' => $percent,
+            'max_diskon' => $max,
+            'min_pembelian' => $minimum,
+            'ongkir' => $ongkir,
+        ]);
         $totalPerPerson = [];
-        $ongkir = $this->ongkir($ongkir, $payload);
+        $ongkir_diskon = $this->ongkir($ongkir, $payload);
         foreach ($payload as $key => $value) {
+
             $totalPerPerson[$key]['nama'] = $value['pembeli'];
             $totalPerPerson[$key]['total'] = 0;
+            $transaksi_det = TransaksiDet::create([
+                'transaksi_id' => $transaksi->id,
+                'nama_pembeli' => $value['pembeli'],
+            ]);
             $paid = 0;
             foreach ($value['menu'] as $keys => $values) {
                 $paid += $values['harga'] * $values['jumlah'];
-                $totalPerPerson[$key]['total'] = round(($discount * ($paid / $total)) + $ongkir);
+                $totalPerPerson[$key]['total'] = round(($discount * ($paid / $total)) + $ongkir_diskon);
+                TransaksiDetMenu::create([
+                    'transaksi_det_id' => $transaksi_det->id,
+                    'nama_menu' => $values['nama'],
+                    'harga' => $values['harga'],
+                    'jumlah' => $values['jumlah'],
+                ]);
+
+                TransaksiDet::find($transaksi_det->id)->update([
+                    'total_harga' => $paid + $ongkir,
+                    'harga_diskon' => $totalPerPerson[$key]['total'],
+                ]);
             }
         }
+
 
 
         return [
             'total' => $total,
             'discount' => $discount,
             'ongkir' => $ongkir,
-            'totalPerPerson' => $totalPerPerson
+            'totalPerPerson' => $totalPerPerson,
+            'data' => Transaksi::with('transaksi_det.transaksi_det_menu')->find($transaksi->id),
         ];
     }
 }
