@@ -61,6 +61,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
 <script>
+
+    const formatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+    });
+
     $('#tambah-pembeli').on('click', function () {
         var id = $('.form-pembeli').length +1;
 
@@ -70,8 +76,8 @@
                 <div class="row mb-2">
                     <label for="" class="col-md-4">Pembeli `+id+`</label>
                     <div class="col-md input-group">
-                        <input type="text" class="form-control form-control-sm form-pembeli" id="pembeli-`+id+`">
-                        <button class="btn-danger btn btn-sm input-group-append delete-pembeli">
+                        <input required type="text" class="form-control form-control-sm form-pembeli" id="pembeli-`+id+`">
+                        <button class="btn-danger btn btn-sm  input-group-append delete-pembeli">
                                 <i class="fas fa-trash"></i>
                             </button>
                     </div>
@@ -84,14 +90,14 @@
                             <div class="col-md-8">
                                 <div class="row d-flex">
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control mb-2 form-control-sm menu-peserta-`+id+`" placeholder="Menu">
+                                        <input required type="text" class="form-control mb-2 form-control-sm menu-peserta-`+id+`" placeholder="Menu">
                                     </div>
-                                    <div class="col-md input-group">
+                                    <div class="col-md input-group mb-2">
                                         <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control mb-2 form-control-sm harga-peserta-`+id+`" placeholder="Harga">
+                                        <input required type="number" class="form-control form-control-sm harga-peserta-`+id+`" placeholder="Harga">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control mb-2 form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
+                                        <input required type="number" class="form-control mb-2 form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
                                     </div>
                                 </div>
                             </div>
@@ -110,6 +116,14 @@
     })
 
     $('#hitung').on('click', function () {
+        $(this).find('i').removeClass('fa-save').addClass('fa-spinner fa-spin').attr('disabled', true);
+        $('#id-transaksi').empty();
+        $('#harga-total-akhir').empty();
+        $('#ongkir-akhir').empty();
+        $('#diskon-akhir').empty();
+        $('#minimal-pembelian-akhir').empty();
+        $('#max-diskon-akhir').empty();
+        $('#table-detail').empty();
         var payload = [];
         var diskon = $('#diskon').val();
         var diskonMax = $('#diskon-max').val();
@@ -133,32 +147,10 @@
                 menu: menu
             })
         })
-        // payload.push({
-        //     pembeli: $('#pembeli-1').val(),
-        //     menu: $('.menu-peserta-1').map(function () {
-        //         return $(this).val();
-        //     }).get(),
-        //     harga: $('.harga-peserta-1').map(function () {
-        //         return $(this).val();
-        //     }).get(),
-        //     jumlah: $('.jumlah-peserta-1').map(function () {
-        //         return $(this).val();
-        //     }).get(),
-        // })
-        // $('.form-pembeli').each(function (index, element) {
-        //     payload['nama'].push($(element).val());
-        // })
-
-        // payload['menu'].push([]);
-        //     payload['menu']['nama'].push([]);
-        //     $('.menu-peserta-'+(index+1)).each(function (index, element) {
-        //         payload['menu']['nama'][index].push($(element).val());
-        //     })
-        //     payload['menu']['harga'].push([]);
-        //     $('.harga-peserta-'+(index+1)).each(function (index, element) {
-        //         payload['menu']['harga'][index].push($(element).val());
-        //     })
         console.log(payload)
+
+
+
         console.log($('.menu-peserta-2').length);
         $.ajax({
             url: 'api/transaksi',
@@ -171,24 +163,44 @@
                 'minimum': minimalPembelian
             },
             success: function (data) {
+                $('#hitung').find('i').removeClass('fa-spinner fa-spin').addClass('fa-save').attr('disabled',false);
                 console.log(data)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Berhasil menghitung transaksi',
+                    timer : 2000,
+                    timerProggressBar: true,
+                })
                 $("#id-transaksi").html(data.data.id);
-                $("#harga-total-akhir").html(data.data.total_harga);
-                $('#ongkir-akhir').html(data.data.ongkir);
-                $('#diskon-akhir').html(data.data.diskon);
-                $('#minimal-pembelian-akhir').html(data.data.min_pembelian);
-                $('#max-diskon').html(data.data.max_diskon);
+                $("#harga-total-akhir").html(formatter.format(data.data.total_harga));
+                $('#ongkir-akhir').html(formatter.format(data.data.ongkir));
+                $('#diskon-akhir').html(data.data.diskon + '%');
+                $('#minimal-pembelian-akhir').html(formatter.format(data.data.min_pembelian));
+                $('#max-diskon').html(formatter.format(data.data.max_diskon));
                 var key = 1;
               data.data?.transaksi_det.forEach(element => {
                     $("#table-detail").append(`
                         <tr>
                             <td>`+key+`</td>
                             <td>`+element.nama_pembeli+`</td>
-                            <td>`+element.harga_diskon+`</td>
+                            <td>`+formatter.format(element.harga_diskon) +` -(`+data.data.diskon+`%)</td>
                         </tr>
                     `)
                     key++;
                 });
+
+            },
+            error : function(data){
+                $('#hitung').find('i').removeClass('fa-spinner fa-spin').addClass('fa-save').attr('disabled',false);
+                // console.log(data);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: data.responseJSON.message,
+                    timer : 2000,
+                    timerProggressBar: true,
+                })
             }
 
         })
@@ -200,21 +212,21 @@
         $(this).closest('.list-menu-peserta').prepend(`
         <div class="row mb-2 daftar-menu">
         <div class="col-md-4 d-flex justify-content-end">
-            <button class="btn btn-danger btn-sm delete-menu">
+            <button class="btn btn-danger btn-sm mb-2 delete-menu">
                         <i class="fas fa-trash fa-xs"></i>
                     </button>
                             </div>
                             <div class="col-md-8">
                                 <div class="row d-flex">
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control mb-2 form-control-sm menu-peserta-`+id+`" placeholder="Menu">
+                                        <input type="text" required class="form-control mb-2 form-control-sm menu-peserta-`+id+`" placeholder="Menu">
                                     </div>
-                                    <div class="col-md input-group">
+                                    <div class="col-md input-group mb-2 ">
                                         <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                        <input type="number" class="form-control mb-2 form-control-sm harga-peserta-`+id+`" placeholder="Harga">
+                                        <input type="number" required class="form-control form-control-sm harga-peserta-`+id+`" placeholder="Harga">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" class="form-control mb-2 form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
+                                        <input type="number" required class="form-control mb-2 form-control-sm jumlah-peserta-`+id+`" placeholder="Qty">
                                     </div>
                                 </div>
                             </div>

@@ -13,7 +13,7 @@
                         <div class="row mb-2">
                             <label for="" class="col-md-4">Pembeli 1</label>
                             <div class="col-md input-group">
-                                <input type="text" class="form-control form-control-sm form-pembeli"  id="pembeli-1">
+                                <input type="text" required class="form-control form-control-sm form-pembeli"  id="pembeli-1">
                                 <button class="btn-danger btn btn-sm input-group-append delete-pembeli" hidden>
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -27,14 +27,14 @@
                                 <div class="col-md-8">
                                     <div class="row d-flex">
                                         <div class="col-md-5">
-                                            <input type="text" class="form-control mb-2 form-control-sm menu-peserta-1" placeholder="Menu">
+                                            <input type="text" required class="form-control mb-2 form-control-sm menu-peserta-1" placeholder="Menu">
                                         </div>
-                                        <div class="col-md input-group">
+                                        <div class="col-md input-group  mb-2">
                                             <button class=" btn btn-sm btn-primary input-group-prepend my-auto" disabled><i class="fas fa-percent fa-xs"></i></button>
-                                            <input type="number" class="form-control mb-2 form-control-sm harga-peserta-1" placeholder="Harga">
+                                            <input type="number" required class="form-control form-control-sm harga-peserta-1" placeholder="Harga">
                                         </div>
                                         <div class="col-md-2">
-                                            <input type="number" class="form-control mb-2 form-control-sm jumlah-peserta-1" placeholder="Qty">
+                                            <input type="number" required class="form-control mb-2 form-control-sm jumlah-peserta-1" placeholder="Qty">
                                         </div>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                     <div class="row mb-2">
                         <label for="" class="col-md-4">Diskon</label>
                         <div class="col-md input-group input-group-sm">
-                            <input type="number" class="form-control form-control-sm "  id="diskon">
+                            <input type="number" required class="form-control form-control-sm "  id="diskon">
                             <button class="btn btn-sm btn-secondary input-group-append" disabled>
                                 <i class="fas fa-percent fa-xs"></i>
                             </button>
@@ -59,7 +59,7 @@
                             <button class="btn btn-sm btn-secondary input-group-prepend" disabled>
                                 Rp.
                             </button>
-                            <input type="number" class="form-control form-control-sm "  id="diskon-max">
+                            <input type="number" required class="form-control form-control-sm "  id="diskon-max">
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -68,7 +68,7 @@
                             <button class="btn btn-sm btn-secondary" disabled>
                                 Rp.
                             </button>
-                            <input type="number" class="form-control form-control-sm "  id="minimal-pembelian">
+                            <input type="number" required class="form-control form-control-sm "  id="minimal-pembelian">
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -77,7 +77,7 @@
                             <button class="btn btn-sm btn-secondary input-group-prepend" disabled>
                                 Rp.
                             </button>
-                            <input type="number" class="form-control form-control-sm"  id="ongkir">
+                            <input type="number" required class="form-control form-control-sm"  id="ongkir">
                         </div>
                     </div>
                 </div>
@@ -99,19 +99,19 @@
                         </tr>
                         <tr class="mb-2">
                             <td>Total Harga</td>
-                            <td id="harga-total"></td>
+                            <td id="harga-total-akhir"></td>
                         </tr>
                         <tr class="mb-2">
                             <td>Ongkir</td>
-                            <td id="ongkir"></td>
+                            <td id="ongkir-akhir"></td>
                         </tr>
                         <tr class="mb-2">
                             <td>Diskon</td>
-                            <td id="diskon"></td>
+                            <td id="diskon-akhir"></td>
                         </tr>
                         <tr class="mb-2">
                             <td>Minimum Pembelian</td>
-                            <td id="minimal-pembelian"></td>
+                            <td id="minimal-pembelian-akhir"></td>
                         </tr>
                         <tr class="mb-2">
                             <td>Maksimal Diskon</td>
@@ -126,7 +126,7 @@
                         <thead class="thead-light">
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Harga</th>
+                            <th>Harga Bayar</th>
                         </thead>
                         <tbody id="table-detail">
 
