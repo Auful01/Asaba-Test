@@ -11,17 +11,24 @@ class TransaksiController extends Controller
         // dd($payload);
         $total = 0;
         foreach ($payload as $key => $value) {
-            $total += $value['harga'] * $value['jumlah'];
+            foreach ($value['menu'] as $key => $value1) {
+                $total += $value1['harga'] * $value1['jumlah'];
+            }
         }
+
         return $total;
     }
 
-    public function discount($data, $percent, $max)
+    public function discount($data, $percent, $max, $min)
     {
         $total = $this->total($data);
         $discount = $total * ($percent / 100);
         if ($discount > $max) {
             $discount = $max;
+        }
+
+        if ($total < $min) {
+            $discount = 0;
         }
         $pay = $total - $discount;
         return $pay;
@@ -41,16 +48,28 @@ class TransaksiController extends Controller
         $ongkir = $request->ongkir;
         $percent = $request->percent;
         $max = $request->max;
+        $minimum = $request->minimum;
 
         $total = $this->total($payload);
-        $discount = $this->discount($payload, $percent, $max);
+        $discount = $this->discount($payload, $percent, $max, $minimum);
         $totalPerPerson = [];
         $ongkir = $this->ongkir($ongkir, $payload);
-
         foreach ($payload as $key => $value) {
-            $totalPerPerson[$key] = round(($discount * (($value['harga'] * $value['jumlah']) / $total)) + $ongkir);
+            $totalPerPerson[$key]['nama'] = $value['pembeli'];
+            $totalPerPerson[$key]['total'] = 0;
+            $paid = 0;
+            foreach ($value['menu'] as $keys => $values) {
+                $paid += $values['harga'] * $values['jumlah'];
+                $totalPerPerson[$key]['total'] = round(($discount * ($paid / $total)) + $ongkir);
+            }
         }
 
-        return $totalPerPerson;
+
+        return [
+            'total' => $total,
+            'discount' => $discount,
+            'ongkir' => $ongkir,
+            'totalPerPerson' => $totalPerPerson
+        ];
     }
 }

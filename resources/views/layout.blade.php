@@ -63,13 +63,15 @@
 <script>
     $('#tambah-pembeli').on('click', function () {
         var id = $('.form-pembeli').length +1;
+
+
         $('#kolom-pembeli').append(`
         <div class="mb-2 pembeli">
                 <div class="row mb-2">
                     <label for="" class="col-md-4">Pembeli `+id+`</label>
                     <div class="col-md input-group">
                         <input type="text" class="form-control form-control-sm form-pembeli" id="pembeli-`+id+`">
-                        <button class="btn-danger btn btn-sm input-group-append">
+                        <button class="btn-danger btn btn-sm input-group-append delete-pembeli">
                                 <i class="fas fa-trash"></i>
                             </button>
                     </div>
@@ -97,10 +99,22 @@
                         </div>
             </div>
         `)
+
+
+        if(id == 1){
+            $('.delete-pembeli').hide();
+        }else{
+            $('body .delete-pembeli').attr('hidden', true);
+            $('body .delete-pembeli:last').attr('hidden', false);
+        }
     })
 
     $('#hitung').on('click', function () {
         var payload = [];
+        var diskon = $('#diskon').val();
+        var diskonMax = $('#diskon-max').val();
+        var minimalPembelian = $('#minimal-pembelian').val();
+        var ongkir = $('#ongkir').val();
         $('.pembeli').each(function (i, e) {
             var pembeli = $(e).find('.form-pembeli').val();
             var menu = [];
@@ -109,9 +123,9 @@
                 var harga = $(el).find('.harga-peserta-'+(i+1)).val();
                 var jumlah = $(el).find('.jumlah-peserta-'+(i+1)).val();
                 menu.push({
-                    menu_peserta: nama,
-                    harga_peserta: harga,
-                    jumlah_peserta: jumlah
+                    nama: nama,
+                    harga: harga,
+                    jumlah: jumlah
                 })
             })
             payload.push({
@@ -150,7 +164,11 @@
             url: 'api/transaksi',
             type: 'GET',
             data: {
-                'payload': payload
+                'payload': payload,
+                'percent': diskon,
+                'ongkir': ongkir,
+                'max': diskonMax,
+                'minimum': minimalPembelian
             },
             success: function (data) {
                 console.log(data)
@@ -160,11 +178,14 @@
     })
 
     $('body').on('click', '.tambah-menu', function () {
-        var id = $('.form-pembeli').length;
+        var id = $(this).closest('.pembeli').index('.pembeli') + 1;
+        console.log(id);
         $(this).closest('.list-menu-peserta').prepend(`
         <div class="row mb-2 daftar-menu">
         <div class="col-md-4 d-flex justify-content-end">
-
+            <button class="btn btn-danger btn-sm delete-menu">
+                        <i class="fas fa-trash fa-xs"></i>
+                    </button>
                             </div>
                             <div class="col-md-8">
                                 <div class="row d-flex">
@@ -182,6 +203,26 @@
                             </div>
                             </div>
                             `)
+    })
+
+    $('body').on('click', '.delete-menu', function () {
+        $(this).closest('.daftar-menu').remove();
+    })
+
+
+
+
+    $('body').on('click', '.delete-pembeli', function () {
+        $(this).closest('.pembeli').remove();
+        var id = $('.form-pembeli').length;
+
+        if(id == 1){
+            $('.delete-pembeli').hide();
+        }else{
+            $('body .delete-pembeli').attr('hidden', true);
+            $('body .delete-pembeli').last().attr('hidden', false);
+        }
+
     })
 </script>
 </body>

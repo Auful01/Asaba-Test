@@ -14,7 +14,7 @@
                             <label for="" class="col-md-4">Pembeli 1</label>
                             <div class="col-md input-group">
                                 <input type="text" class="form-control form-control-sm form-pembeli"  id="pembeli-1">
-                                <button class="btn-danger btn btn-sm input-group-append">
+                                <button class="btn-danger btn btn-sm input-group-append delete-pembeli" hidden>
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -46,20 +46,38 @@
                 <div class="col-md-6">
                     <div class="row mb-2">
                         <label for="" class="col-md-4">Diskon</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control form-control-sm "  id="disc">
+                        <div class="col-md input-group input-group-sm">
+                            <input type="number" class="form-control form-control-sm "  id="diskon">
+                            <button class="btn btn-sm btn-secondary input-group-append" disabled>
+                                <i class="fas fa-percent fa-xs"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <label for="" class="col-md-4">Diskon Max.</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control form-control-sm "  id="max-disc">
+                        <div class="col-md input-group input-group-sm">
+                            <button class="btn btn-sm btn-secondary input-group-prepend" disabled>
+                                Rp.
+                            </button>
+                            <input type="number" class="form-control form-control-sm "  id="diskon-max">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <label for="" class="col-md-4">Minimal Pembelian</label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control form-control-sm "  id="min-pay">
+                        <div class="col-md input-group input-group-sm input-group-prepend">
+                            <button class="btn btn-sm btn-secondary" disabled>
+                                Rp.
+                            </button>
+                            <input type="number" class="form-control form-control-sm "  id="minimal-pembelian">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label for="" class="col-md-4">Ongkir</label>
+                        <div class="col-md input-group input-group-sm">
+                            <button class="btn btn-sm btn-secondary input-group-prepend" disabled>
+                                Rp.
+                            </button>
+                            <input type="number" class="form-control form-control-sm"  id="ongkir">
                         </div>
                     </div>
                 </div>
